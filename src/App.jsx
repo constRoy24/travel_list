@@ -4,6 +4,7 @@ import Form from "./Form";
 import Header from "./Header";
 import PackingList from "./PackingList";
 import Stats from "./Stats";
+import { useLocalStorageState } from "./useLocalStorage";
 
 // const initialItems = [
 //   { id: 1, description: "Passports", quantity: 2, packed: false },
@@ -14,17 +15,34 @@ import Stats from "./Stats";
 // ];
 
 const App = () => {
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
+  const [items, setItems] = useLocalStorageState([], "items");
 
   const handleAddItems = (item) => {
     setItems((items) => [...items, item]);
+  };
+
+  const handleDeleteItems = (id) => {
+    setItems((items) => items.filter((item) => item.id !== id));
+  };
+
+  const handleToggleItem = (id) => {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
   };
   return (
     <>
       <div className="app">
         <Header />
         <Form onAddItems={handleAddItems} />
-        <PackingList items={items} />
+        <PackingList
+          items={items}
+          onDeleteItem={handleDeleteItems}
+          onToggleItem={handleToggleItem}
+        />
         <Stats />
       </div>
     </>
