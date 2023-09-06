@@ -33,6 +33,9 @@ const App = () => {
       )
     );
   };
+  const handleClearList = () => {
+    setItems([]);
+  };
   return (
     <>
       <div className="app">
@@ -42,6 +45,7 @@ const App = () => {
           items={items}
           onDeleteItem={handleDeleteItems}
           onToggleItem={handleToggleItem}
+          onClearList={handleClearList}
         />
         <Stats items={items} />
       </div>
